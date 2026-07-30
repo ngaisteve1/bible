@@ -1,0 +1,388 @@
+/* ==========================================================
+   1. DESKTOP GRID (3-COLUMNS) - Screens wider than 1400px
+   ========================================================== */
+.page {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) 640px minmax(320px, 1fr);
+    gap: 40px;
+    max-width: 1600px;
+    margin: 0 auto 100px;
+    padding: 0 20px;
+    align-items: start;
+}
+
+/* ==========================================================
+   2. LAPTOP GRID (2-COLUMNS) - Screens between 992px and 1400px
+   ========================================================== */
+@media (max-width: 1400px) and (min-width: 993px) {
+    .page {
+        grid-template-columns: 1fr 400px !important;
+        /* Timeline on left, single panel on right */
+        gap: 30px;
+    }
+
+    /* Force the timeline spine track to sit on the left-side of its column */
+    .timeline::before {
+        left: 40px !important;
+        transform: none !important;
+    }
+
+    /* Align all timeline event cards to behave as left-aligned */
+    .event {
+        width: 100% !important;
+        left: 0 !important;
+        padding-left: 80px !important;
+        padding-right: 10px !important;
+        text-align: left !important;
+    }
+
+    /* Force all dot pointers to line up over the left-aligned track */
+    .event::before {
+        left: 40px !important;
+        right: auto !important;
+        width: 40px !important;
+    }
+
+    .event.left .dot,
+    .event.right .dot {
+        left: 40px !important;
+        right: auto !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .event.active.major .dot,
+    .event.active.minor .dot {
+        transform: translate(-50%, -50%) scale(1.25) !important;
+    }
+}
+
+/* ==========================================================
+   3. MOBILE GRID (1-COLUMN) - Screens 992px and below
+   ========================================================== */
+@media (max-width: 992px) {
+    .page {
+        grid-template-columns: 1fr;
+        gap: 0;
+        max-width: 650px;
+    }
+
+    .timeline::before {
+        left: 20px;
+        transform: none;
+    }
+
+    .event {
+        width: 100% !important;
+        left: 0 !important;
+        padding-left: 50px !important;
+        padding-right: 10px !important;
+        text-align: left !important;
+    }
+
+    .event::before {
+        left: 20px !important;
+        right: auto !important;
+        width: 30px !important;
+    }
+
+    .event.left .dot,
+    .event.right .dot {
+        left: 20px !important;
+        right: auto !important;
+        transform: translate(-50%, -50%) !important;
+    }
+}
+
+/* ==========================================================
+   4. TESTAMENT SECTION DIVIDER (OT / NT BREAK)
+   ========================================================== */
+.timeline-divider {
+    width: 100% !important;
+    left: 0 !important;
+    text-align: center;
+    padding: 40px 0;
+    position: relative;
+    z-index: 2;
+    clear: both;
+    box-sizing: border-box;
+}
+
+.timeline-divider-content {
+    display: inline-block;
+    background: #8A642D;
+    /* Deep gold/bronze matching your spine gradient */
+    color: white;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 2px solid #D8B56A;
+}
+
+/* Responsive adjustments to keep the label clear of the spine track line */
+@media (max-width: 1400px) and (min-width: 993px) {
+    .timeline-divider {
+        padding-left: 80px !important;
+        text-align: left !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .timeline-divider {
+        padding-left: 50px !important;
+        text-align: left !important;
+    }
+}
+
+/* ==========================================================
+   TIMELINE SPINE TRACK
+   ========================================================== */
+.timeline {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    bottom: 10px;
+    width: 6px;
+    background: linear-gradient(to bottom, #D8B56A, #B98938, #8A642D);
+    transform: translateX(-50%);
+    z-index: 1;
+    border-radius: 999px;
+}
+
+.event {
+    width: 50%;
+    padding: 15px 30px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.event.left {
+    left: 0;
+    text-align: right;
+}
+
+.event.right {
+    left: 50%;
+    text-align: left;
+}
+
+/* ==========================================================
+   CONNECTOR LINES
+   ========================================================== */
+.event::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+.event.minor::before {
+    background: #cbd5e1;
+}
+
+.event.major::before {
+    background: #e2c77d;
+    height: 5px;
+}
+
+.event.left::before {
+    right: 0;
+    width: 30px;
+}
+
+.event.right::before {
+    left: 0;
+    width: 30px;
+}
+
+.event.left.active::before {
+    background: #D4AF37;
+}
+
+.event.right.active::before {
+    background: #D4AF37;
+}
+
+/* ==========================================================
+   TIMELINE DOTS
+   ========================================================== */
+.dot {
+    position: absolute;
+    top: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.event.left .dot {
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.event.right .dot {
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.major .dot {
+    width: 22px;
+    height: 22px;
+    background: #D4AF37;
+    border: 4px solid white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.minor .dot {
+    width: 14px;
+    height: 14px;
+    background: #5B7DBD;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Active Selection Dot Engine Styles */
+.event.active.major .dot {
+    box-shadow: 0 0 0 8px rgba(212, 175, 55, 0.25);
+    transform: translate(calc(var(--dir, 1) * 50%), -50%) scale(1.2);
+}
+
+.event.active.minor .dot {
+    box-shadow: 0 0 0 6px rgba(91, 125, 189, 0.25);
+    transform: translate(calc(var(--dir, 1) * 50%), -50%) scale(1.25);
+}
+
+.event.left {
+    --dir: 1;
+}
+
+.event.right {
+    --dir: -1;
+}
+
+/* ==========================================================
+   BASE CARD STYLES
+   ========================================================== */
+.card {
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* Update the detail card to feature the left-stripe UI */
+.event-detail-card {
+    padding: 20px;
+    background: #ffffff;
+    border-left: 4px solid #ccc;
+    /* Default (Minor) */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Major event stripe */
+.event-detail-card.major {
+    border-left-color: #b08b57;
+    /* Matches your rich gold border */
+}
+
+/* Minor event stripe */
+.event-detail-card.minor {
+    border-left-color: #5B7DBD;
+    /* Matches your muted blue border */
+}
+
+/* ==========================================================
+   UPDATED MINOR EVENT CARD (MUTED BLUE)
+   ========================================================== */
+.minor .card {
+    background: white;
+    border: 1px solid rgba(91, 125, 189, .15);
+    border-left: 4px solid #5B7DBD;
+}
+
+.major .card {
+    background: #fffdf6;
+    border-left: 6px solid #D4AF37;
+}
+
+/* Minor event label tag */
+.minor-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background-color: #f0f4f8;
+    color: #7188a9;
+    /* Soft slate text */
+    border: 1px solid #e2e8f0;
+}
+
+/* Dynamic glow when a minor card is active/selected */
+.event.minor.active .card {
+    box-shadow:
+        0 0 0 3px rgba(91, 125, 189, 0.15),
+        0 10px 15px -3px rgba(91, 125, 189, 0.1);
+    border-top-color: #5B7DBD;
+}
+
+/* ==========================================================
+   ELEVATED MAJOR EVENT CARD (DOMINANT GOLD)
+   ========================================================== */
+.event.major .card {
+    border-left: 5px solid #b08b57;
+    background: #ffffff;
+}
+
+.event.major .card h2 {
+    color: #5a4632;
+    /* Deep warm brown for commanding contrast */
+    font-size: 1.3rem;
+    /* Visually larger than minor cards */
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+/* Major event label tag */
+.major-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background-color: #fbf7ee;
+    color: #b08b57;
+    border: 1px solid #f3eae0;
+}
+
+/* Dynamic glow when a major card is active/selected */
+.event.major.active .card {
+    box-shadow: 0 0 0 3px rgba(176, 139, 87, 0.2), 0 10px 20px -5px rgba(90, 70, 50, 0.15);
+}
+
+.year {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #8c765c;
+    margin-bottom: 8px;
+}

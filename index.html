@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bible Timeline</title>
+
+  <!-- 1. Layout boundaries and structural alignment systems -->
+  <link rel="stylesheet" href="css/timeline.css">
+
+  <!-- 2. Reusable core UI blocks and interactive custom components -->
+  <link rel="stylesheet" href="css/ui.css">
+
+  <!-- 3. Overall global application frame hooks and body definitions -->
+  <link rel="stylesheet" href="css/app.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Bible Storyline Map</h1>
+    <p>Seeing God's Purpose from Creation to New Creation</p>
+
+    <button id="easterEggBtn" class="easter-egg-btn" onclick="revealEasterEgg()" title="???">
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
+
+    <div class="filters">
+      <button onclick="filterEvents('all')">All</button>
+      <button onclick="filterEvents('major')">Major Events</button>
+      <!-- <button onclick="filterEvents('minor')">Minor Events</button> -->
+    </div>
+  </header>
+
+  <div class="page">
+    <div id="leftDetail" class="detail left-detail"></div>
+
+    <div id="timeline" class="timeline"></div>
+
+    <div id="rightDetail" class="detail right-detail"></div>
+  </div>
+
+  <div id="mobileModal" class="modal-overlay" onclick="closeMobileModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeMobileModal(event)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Data object should load first -->
+  <script src="js/events.js"></script>
+
+  <!-- 2. Unpack it into a global 'events' array right here -->
+  <script>
+    const events = eventsData.data.map(row => {
+      return eventsData.keys.reduce((obj, key, i) => {
+        obj[key] = row[i];
+        return obj;
+      }, {});
+    });
+  </script>
+
+  <!-- App Logic Layout Blocks -->
+  <script src="js/timeline.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
